@@ -96,7 +96,7 @@ WalletWise/
 - **No Force Unwraps** — Safe optional handling throughout the codebase
 - **Proper Error Handling** — `do/catch` blocks on all SwiftData operations
 - **Accessibility** — VoiceOver labels on all interactive elements
-- **Pure SwiftUI** — Zero UIKit dependencies
+- **Pure SwiftUI** — Built entirely with SwiftUI framework
 
 ## Requirements
 
