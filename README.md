@@ -86,6 +86,7 @@ WalletWise/
 | **SwiftData** | On-device data persistence |
 | **@Observable** | Reactive state management (MVVM) |
 | **UserDefaults** | Lightweight settings storage (currency, budget) |
+| **[Stitch](https://stitch.withgoogle.com)** | UI/UX design and prototyping |
 
 ## Design Principles
 
