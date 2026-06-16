@@ -64,9 +64,13 @@ struct HomeView: View {
                 .frame(height: 200)
             } else {
                 LazyVStack(spacing: 0) {
-                    ForEach(viewModel.transactions.sorted { $0.date > $1.date }) { transaction in
-                        TransactionRowView(transaction: transaction)
-                            .padding(.horizontal)
+                    let sorted = viewModel.transactions.sorted { $0.date > $1.date }
+                    ForEach(Array(sorted.enumerated()), id: \.element.id) { index, transaction in
+                        TransactionRowView(
+                            transaction: transaction,
+                            animationDelay: Double(index) * 0.05
+                        )
+                        .padding(.horizontal)
                         Divider()
                             .padding(.leading, 64)
                     }

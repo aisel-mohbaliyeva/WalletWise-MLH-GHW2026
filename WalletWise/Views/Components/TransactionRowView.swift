@@ -10,6 +10,9 @@ import SwiftUI
 struct TransactionRowView: View {
     
     var transaction: Transaction
+    var animationDelay: Double = 0
+    
+    @State private var hasAppeared = false
     
     var body: some View {
         HStack(spacing: 12) {
@@ -42,6 +45,13 @@ struct TransactionRowView: View {
             }
         }
         .padding(.vertical, 8)
+        .opacity(hasAppeared ? 1 : 0)
+        .offset(x: hasAppeared ? 0 : 30)
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.4).delay(animationDelay)) {
+                hasAppeared = true
+            }
+        }
     }
 }
 

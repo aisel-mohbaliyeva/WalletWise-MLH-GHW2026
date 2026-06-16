@@ -14,6 +14,8 @@ struct ProgressRingView: View {
     var spent: Double
     var lineWidth: CGFloat = 16
     
+    @State private var animatedProgress: Double = 0
+    
     private var remainingBudget: Double {
         max(totalBudget - spent, 0)
     }
@@ -35,13 +37,14 @@ struct ProgressRingView: View {
                     .stroke(ringColor.opacity(0.2), lineWidth: lineWidth)
                 
                 Circle()
-                    .trim(from: 0, to: progress)
+                    .trim(from: 0, to: animatedProgress)
                     .stroke(ringColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                 
                 VStack(spacing: 4) {
-                    Text("\(Int(progress * 100))%")
+                    Text("\(Int(animatedProgress * 100))%")
                         .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .contentTransition(.numericText(value: animatedProgress))
                     Text("spent")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -64,6 +67,16 @@ struct ProgressRingView: View {
         .padding()
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 20))
+        .onAppear {
+            withAnimation(.easeOut(duration: 1.0)) {
+                animatedProgress = progress
+            }
+        }
+        .onChange(of: progress) { _, newValue in
+            withAnimation(.easeOut(duration: 0.5)) {
+                animatedProgress = newValue
+            }
+        }
     }
 }
 
