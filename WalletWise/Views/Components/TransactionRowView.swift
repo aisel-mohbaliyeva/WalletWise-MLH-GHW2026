@@ -52,6 +52,8 @@ struct TransactionRowView: View {
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 16)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(transaction.title), \(transaction.category.rawValue), \(transaction.isIncome ? "income" : "expense") \(transaction.amount, format: .currency(code: currencyCode))")
         .opacity(hasAppeared ? 1 : 0)
         .offset(x: hasAppeared ? 0 : 20)
         .onAppear {

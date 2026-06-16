@@ -21,8 +21,11 @@ class WalletViewModel {
 
     var selectedCurrency: AppCurrency {
         didSet {
-            if let data = try? JSONEncoder().encode(selectedCurrency) {
+            do {
+                let data = try JSONEncoder().encode(selectedCurrency)
                 UserDefaults.standard.set(data, forKey: "selectedCurrency")
+            } catch {
+                print("Failed to encode currency: \(error.localizedDescription)")
             }
         }
     }
@@ -36,6 +39,14 @@ class WalletViewModel {
     var totalExpense: Double {
         transactions
             .filter { !$0.isIncome }
+            .reduce(0) { $0 + $1.amount }
+    }
+
+    var monthlyIncome: Double {
+        let calendar = Calendar.current
+        let now = Date()
+        return transactions
+            .filter { $0.isIncome && calendar.isDate($0.date, equalTo: now, toGranularity: .month) }
             .reduce(0) { $0 + $1.amount }
     }
 
@@ -76,22 +87,35 @@ class WalletViewModel {
            let decoded = try? JSONDecoder().decode(AppCurrency.self, from: data) {
             self.selectedCurrency = decoded
         } else {
-            self.selectedCurrency = .defaultCurrency
+            self.selectedCurrency = AppCurrency.defaultCurrency
         }
     }
 
     func addTransaction(_ transaction: Transaction, context: ModelContext) {
         context.insert(transaction)
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save transaction: \(error.localizedDescription)")
+        }
     }
 
     func deleteTransaction(_ transaction: Transaction, context: ModelContext) {
         context.delete(transaction)
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete transaction: \(error.localizedDescription)")
+        }
     }
 
     func loadTransactions(context: ModelContext) {
         let descriptor = FetchDescriptor<Transaction>(sortBy: [SortDescriptor(\.date, order: .reverse)])
-        transactions = (try? context.fetch(descriptor)) ?? []
+        do {
+            transactions = try context.fetch(descriptor)
+        } catch {
+            transactions = []
+            print("Failed to fetch transactions: \(error.localizedDescription)")
+        }
     }
 }

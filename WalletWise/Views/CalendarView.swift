@@ -17,7 +17,12 @@ struct CalendarView: View {
     @State private var displayedMonth = Date()
 
     private let calendar = Calendar.current
-    private let weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+    private var weekdays: [String] {
+        let symbols = calendar.shortWeekdaySymbols
+        let firstWeekday = calendar.firstWeekday - 1
+        return Array(symbols[firstWeekday...]) + Array(symbols[..<firstWeekday])
+    }
 
     private var monthTitle: String {
         displayedMonth.formatted(.dateTime.month(.wide).year())
@@ -96,6 +101,7 @@ struct CalendarView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(AppColor.background)
             }
+            .accessibilityLabel("Previous month")
 
             Spacer()
 
@@ -117,6 +123,7 @@ struct CalendarView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(AppColor.background)
             }
+            .accessibilityLabel("Next month")
         }
         .padding(.horizontal, 24)
     }
@@ -225,6 +232,7 @@ struct CalendarView: View {
                     )
             )
         }
+        .accessibilityLabel("\(date.formatted(.dateTime.month(.wide).day()))\(isToday ? ", today" : "")\(hasData ? ", has transactions" : "")")
     }
 
     private func transactionRow(_ transaction: Transaction) -> some View {

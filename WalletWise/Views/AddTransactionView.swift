@@ -18,6 +18,7 @@ struct AddTransactionView: View {
     @State private var amount = ""
     @State private var category: Category = .market
     @State private var isIncome = false
+    @State private var didSave = false
 
     private var sanitizedAmount: Double? {
         Double(amount.replacingOccurrences(of: ",", with: "."))
@@ -168,6 +169,8 @@ struct AddTransactionView: View {
             .navigationTitle("Add Transaction")
             .navigationBarTitleDisplayMode(.inline)
             .preferredColorScheme(.light)
+            .scrollDismissesKeyboard(.interactively)
+            .sensoryFeedback(.success, trigger: didSave)
             .onChange(of: title) { _, newValue in
                 if newValue.count > 40 {
                     title = String(newValue.prefix(40))
@@ -197,6 +200,8 @@ struct AddTransactionView: View {
             .foregroundStyle(isSelected ? AppColor.darkText : AppColor.background.opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 14))
         }
+        .accessibilityLabel("\(label)\(isSelected ? ", selected" : "")")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     @ViewBuilder
@@ -244,6 +249,8 @@ struct AddTransactionView: View {
                     .minimumScaleFactor(0.7)
             }
         }
+        .accessibilityLabel("\(cat.rawValue)\(isSelected ? ", selected" : "")")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     private func saveTransaction() {
@@ -255,6 +262,7 @@ struct AddTransactionView: View {
             isIncome: isIncome
         )
         viewModel.addTransaction(transaction, context: modelContext)
+        didSave = true
         dismiss()
     }
 }

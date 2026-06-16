@@ -17,6 +17,9 @@ struct HomeView: View {
     @State private var showCalendar = false
     @State private var showBudgetEditor = false
     @State private var budgetInput = ""
+    @State private var showDeleteConfirmation = false
+    @State private var transactionToDelete: Transaction?
+    @State private var didDelete = false
     
     var body: some View {
         NavigationStack {
@@ -27,9 +30,9 @@ struct HomeView: View {
                 ScrollView {
                     VStack(spacing: 20) {
                         BalanceCardView(
-                            balance: viewModel.balance,
-                            income: viewModel.totalIncome,
-                            expense: viewModel.totalExpense,
+                            balance: viewModel.monthlyIncome - viewModel.monthlyExpense,
+                            income: viewModel.monthlyIncome,
+                            expense: viewModel.monthlyExpense,
                             currencyCode: viewModel.currencyCode
                         )
                         
@@ -63,18 +66,33 @@ struct HomeView: View {
                             .background(AppColor.cardBackground)
                             .clipShape(Capsule())
                     }
+                    .accessibilityLabel("Change currency, current: \(viewModel.selectedCurrency.name)")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showAddTransaction = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.body)
-                            .fontWeight(.bold)
-                            .foregroundStyle(AppColor.darkText)
-                            .frame(width: 32, height: 32)
-                            .background(AppColor.accent)
-                            .clipShape(Circle())
+                    HStack(spacing: 12) {
+                        Button {
+                            showCalendar = true
+                        } label: {
+                            Image(systemName: "calendar")
+                                .font(.body)
+                                .foregroundStyle(AppColor.accent)
+                                .frame(width: 32, height: 32)
+                                .background(AppColor.cardBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        }
+                        .accessibilityLabel("Open calendar")
+                        Button {
+                            showAddTransaction = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.body)
+                                .fontWeight(.bold)
+                                .foregroundStyle(AppColor.darkText)
+                                .frame(width: 32, height: 32)
+                                .background(AppColor.accent)
+                                .clipShape(Circle())
+                        }
+                        .accessibilityLabel("Add new transaction")
                     }
                 }
             }
@@ -84,6 +102,24 @@ struct HomeView: View {
             .sheet(isPresented: $showCurrencyPicker) {
                 CurrencyPickerView(selectedCurrency: $viewModel.selectedCurrency)
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showCalendar) {
+                CalendarView(viewModel: viewModel, currencyCode: viewModel.currencyCode)
+            }
+            .alert("Delete Transaction", isPresented: $showDeleteConfirmation) {
+                Button("Delete", role: .destructive) {
+                    if let transaction = transactionToDelete {
+                        viewModel.deleteTransaction(transaction, context: modelContext)
+                        viewModel.loadTransactions(context: modelContext)
+                        didDelete.toggle()
+                    }
+                    transactionToDelete = nil
+                }
+                Button("Cancel", role: .cancel) {
+                    transactionToDelete = nil
+                }
+            } message: {
+                Text("Are you sure you want to delete this transaction?")
             }
             .alert("Monthly Budget", isPresented: $showBudgetEditor) {
                 TextField("Amount", text: $budgetInput)
@@ -98,6 +134,7 @@ struct HomeView: View {
             } message: {
                 Text("Enter your monthly budget limit")
             }
+            .sensoryFeedback(.success, trigger: didDelete)
             .onAppear {
                 viewModel.loadTransactions(context: modelContext)
             }
@@ -109,16 +146,20 @@ struct HomeView: View {
         }
     }
     
+    private var currentMonthName: String {
+        Date().formatted(.dateTime.month(.wide).year()).uppercased()
+    }
+
     private var transactionSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("RECENT TRANSACTIONS")
+            Text(currentMonthName)
                 .font(.caption)
                 .fontWeight(.bold)
                 .tracking(2)
                 .foregroundStyle(AppColor.accent.opacity(0.7))
                 .padding(.horizontal, 24)
-            
-            if viewModel.transactions.isEmpty {
+
+            if viewModel.currentMonthTransactions.isEmpty {
                 VStack(spacing: 10) {
                     Image(systemName: "tray")
                         .font(.title)
@@ -131,7 +172,7 @@ struct HomeView: View {
                 .padding(.vertical, 40)
             } else {
                 VStack(spacing: 0) {
-                    ForEach(Array(viewModel.transactions.enumerated()), id: \.element.id) { index, transaction in
+                    ForEach(Array(viewModel.currentMonthTransactions.enumerated()), id: \.element.id) { index, transaction in
                         SwipeableRow {
                             TransactionRowView(
                                 transaction: transaction,
@@ -139,10 +180,10 @@ struct HomeView: View {
                                 animationDelay: Double(index) * 0.05
                             )
                         } onDelete: {
-                            viewModel.deleteTransaction(transaction, context: modelContext)
-                            viewModel.loadTransactions(context: modelContext)
+                            transactionToDelete = transaction
+                            showDeleteConfirmation = true
                         }
-                        if index < viewModel.transactions.count - 1 {
+                        if index < viewModel.currentMonthTransactions.count - 1 {
                             Divider()
                                 .overlay(AppColor.primaryText.opacity(0.06))
                                 .padding(.leading, 74)

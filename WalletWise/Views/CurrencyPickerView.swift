@@ -35,13 +35,6 @@ struct CurrencyPickerView: View {
                                 dismiss()
                             } label: {
                                 HStack(spacing: 14) {
-                                    Text(currency.symbol)
-                                        .font(.title2)
-                                        .frame(width: 44, height: 44)
-                                        .background(selectedCurrency.code == currency.code ? AppColor.accent : .white)
-                                        .foregroundStyle(selectedCurrency.code == currency.code ? AppColor.darkText : AppColor.background)
-                                        .clipShape(Circle())
-
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(currency.code)
                                             .font(.subheadline)
@@ -66,7 +59,8 @@ struct CurrencyPickerView: View {
 
                             Divider()
                                 .overlay(AppColor.background.opacity(0.06))
-                                .padding(.leading, 78)
+                                .padding(.leading, 20)
+                                .padding(.trailing, 20)
                         }
                     }
                 }

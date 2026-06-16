@@ -38,6 +38,7 @@ struct SwipeableRow<Content: View>: View {
                     .background(Color.red.gradient)
                     .clipShape(RoundedRectangle(cornerRadius: 13))
             }
+            .accessibilityLabel("Delete transaction")
             .padding(.trailing, 12)
             .opacity(isRevealed ? 1 : 0)
             .scaleEffect(isRevealed ? 1 : 0.4)

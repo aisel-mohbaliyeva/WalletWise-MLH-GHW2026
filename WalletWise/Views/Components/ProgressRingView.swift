@@ -48,6 +48,7 @@ struct ProgressRingView: View {
                             .foregroundStyle(AppColor.accent.opacity(0.5))
                     }
                 }
+                .accessibilityLabel("Edit monthly budget")
             }
             
             GeometryReader { geo in
@@ -86,6 +87,8 @@ struct ProgressRingView: View {
         .padding(24)
         .background(AppColor.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 24))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Monthly budget: spent \(spent, format: .currency(code: currencyCode)) of \(totalBudget, format: .currency(code: currencyCode)), \(remaining, format: .currency(code: currencyCode)) remaining")
         .padding(.horizontal)
         .onAppear {
             withAnimation(.easeOut(duration: 1.0)) {

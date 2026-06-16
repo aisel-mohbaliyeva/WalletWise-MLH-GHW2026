@@ -19,7 +19,7 @@ struct BalanceCardView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("CURRENT BALANCE")
+            Text("MONTHLY BALANCE")
                 .font(.caption)
                 .fontWeight(.bold)
                 .tracking(2)
@@ -39,6 +39,8 @@ struct BalanceCardView: View {
         .frame(maxWidth: .infinity)
         .background(AppColor.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 24))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Monthly balance \(balance, format: .currency(code: currencyCode)), income \(income, format: .currency(code: currencyCode)), expense \(expense, format: .currency(code: currencyCode))")
         .padding(.horizontal)
         .onAppear {
             guard !hasAppeared else { return }
