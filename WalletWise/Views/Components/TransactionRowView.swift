@@ -10,45 +10,43 @@ import SwiftUI
 struct TransactionRowView: View {
     
     var transaction: Transaction
+    var currencyCode: String
     var animationDelay: Double = 0
     
     @State private var hasAppeared = false
     
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 14) {
             Image(systemName: transaction.category.icon)
-                .font(.title3)
+                .font(.body)
                 .foregroundStyle(transaction.category.color)
-                .frame(width: 40, height: 40)
-                .background(transaction.category.color.opacity(0.15))
+                .frame(width: 44, height: 44)
+                .background(transaction.category.color.opacity(0.12))
                 .clipShape(Circle())
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(transaction.title)
                     .font(.subheadline)
-                    .fontWeight(.medium)
-                Text(transaction.category.rawValue.capitalized)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(AppColor.primaryText)
+                Text(transaction.category.rawValue)
+                    .font(.caption2)
+                    .foregroundStyle(AppColor.primaryText.opacity(0.4))
             }
             
             Spacer()
             
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("\(transaction.isIncome ? "+" : "-")\(transaction.amount, format: .currency(code: "USD"))")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(transaction.isIncome ? .green : .red)
-                Text(transaction.date, format: .dateTime.month().day())
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
+            Text("\(transaction.isIncome ? "+" : "-")\(transaction.amount, format: .currency(code: currencyCode))")
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundStyle(transaction.isIncome ? AppColor.accent : .red)
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 16)
         .opacity(hasAppeared ? 1 : 0)
-        .offset(x: hasAppeared ? 0 : 30)
+        .offset(x: hasAppeared ? 0 : 20)
         .onAppear {
-            withAnimation(.easeOut(duration: 0.4).delay(animationDelay)) {
+            withAnimation(.easeOut(duration: 0.3).delay(animationDelay)) {
                 hasAppeared = true
             }
         }
@@ -57,12 +55,8 @@ struct TransactionRowView: View {
 
 #Preview {
     TransactionRowView(
-        transaction: Transaction(
-            title: "Grocery Shopping",
-            amount: 45.99,
-            category: .food,
-            isIncome: false
-        )
+        transaction: Transaction(title: "Starbucks", amount: 12.50, category: .restaurant, isIncome: false),
+        currencyCode: "AZN"
     )
-    .padding()
+    .background(AppColor.cardBackground)
 }

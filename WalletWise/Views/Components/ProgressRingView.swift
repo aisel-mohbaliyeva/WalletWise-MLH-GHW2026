@@ -12,61 +12,71 @@ struct ProgressRingView: View {
     var progress: Double
     var totalBudget: Double
     var spent: Double
-    var lineWidth: CGFloat = 16
+    var currencyCode: String
     
     @State private var animatedProgress: Double = 0
     
-    private var remainingBudget: Double {
+    private var remaining: Double {
         max(totalBudget - spent, 0)
     }
     
-    private var ringColor: Color {
-        if progress < 0.5 {
-            return .green
-        } else if progress < 0.8 {
-            return .orange
-        } else {
-            return .red
-        }
+    private var barColor: Color {
+        if progress < 0.5 { return AppColor.accent }
+        else if progress < 0.8 { return .orange }
+        else { return .red }
     }
     
     var body: some View {
-        VStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .stroke(ringColor.opacity(0.2), lineWidth: lineWidth)
-                
-                Circle()
-                    .trim(from: 0, to: animatedProgress)
-                    .stroke(ringColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                
-                VStack(spacing: 4) {
-                    Text("\(Int(animatedProgress * 100))%")
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .contentTransition(.numericText(value: animatedProgress))
-                    Text("spent")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                Text("MONTHLY BUDGET")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .tracking(2)
+                    .foregroundStyle(AppColor.accent.opacity(0.7))
+                Spacer()
+                Text("of \(totalBudget, format: .currency(code: currencyCode))")
+                    .font(.caption2)
+                    .foregroundStyle(AppColor.primaryText.opacity(0.4))
+            }
+            
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(AppColor.background)
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(barColor)
+                        .frame(width: geo.size.width * animatedProgress)
                 }
             }
-            .frame(width: 140, height: 140)
+            .frame(height: 8)
             
-            VStack(spacing: 4) {
-                Text("Monthly Budget")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(remainingBudget, format: .currency(code: "USD"))
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                Text("remaining")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Spent")
+                        .font(.caption2)
+                        .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                    Text(spent, format: .currency(code: currencyCode))
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(barColor)
+                }
+                Spacer()
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text("Remaining")
+                        .font(.caption2)
+                        .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                    Text(remaining, format: .currency(code: currencyCode))
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(AppColor.accent)
+                }
             }
         }
-        .padding()
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .padding(24)
+        .background(AppColor.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .padding(.horizontal)
         .onAppear {
             withAnimation(.easeOut(duration: 1.0)) {
                 animatedProgress = progress
@@ -81,7 +91,7 @@ struct ProgressRingView: View {
 }
 
 #Preview {
-    ProgressRingView(progress: 0.65, totalBudget: 1000, spent: 650)
+    ProgressRingView(progress: 0.72, totalBudget: 4500, spent: 3240, currencyCode: "AZN")
         .padding()
-        .background(Color.black)
+        .background(AppColor.background)
 }

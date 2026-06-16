@@ -10,9 +10,21 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var viewModel = WalletViewModel()
+    @State private var showSplash = true
     
     var body: some View {
-        HomeView(viewModel: viewModel)
+        ZStack {
+            HomeView(viewModel: viewModel)
+            
+            if showSplash {
+                SplashScreenView()
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+                showSplash = false
+            }
+        }
     }
 }
 

@@ -12,40 +12,39 @@ struct BalanceCardView: View {
     var balance: Double
     var income: Double
     var expense: Double
+    var currencyCode: String
     
     @State private var animatedBalance: Double = 0
-    @State private var animatedIncome: Double = 0
-    @State private var animatedExpense: Double = 0
     @State private var hasAppeared = false
     
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Current Balance")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+        VStack(spacing: 20) {
+            Text("CURRENT BALANCE")
+                .font(.caption)
+                .fontWeight(.bold)
+                .tracking(2)
+                .foregroundStyle(AppColor.accent.opacity(0.7))
             
-            Text(animatedBalance, format: .currency(code: "USD"))
-                .font(.system(size: 40, weight: .bold, design: .rounded))
-                .foregroundStyle(balance >= 0 ? .green : .red)
+            Text(animatedBalance, format: .currency(code: currencyCode))
+                .font(.system(size: 40, weight: .black, design: .rounded))
+                .foregroundStyle(AppColor.accent)
                 .contentTransition(.numericText(value: animatedBalance))
             
-            HStack(spacing: 32) {
-                labeledAmount(title: "Income", amount: animatedIncome, color: .green, icon: "arrow.down.circle.fill")
-                labeledAmount(title: "Expense", amount: animatedExpense, color: .red, icon: "arrow.up.circle.fill")
+            HStack(spacing: 12) {
+                statBox(title: "Income", amount: income, icon: "arrow.down", color: AppColor.accent)
+                statBox(title: "Expense", amount: expense, icon: "arrow.up", color: .red)
             }
         }
         .padding(24)
         .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .background(AppColor.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 24))
         .padding(.horizontal)
         .onAppear {
             guard !hasAppeared else { return }
             hasAppeared = true
             withAnimation(.easeOut(duration: 0.8)) {
                 animatedBalance = balance
-                animatedIncome = income
-                animatedExpense = expense
             }
         }
         .onChange(of: balance) { _, newValue in
@@ -53,39 +52,32 @@ struct BalanceCardView: View {
                 animatedBalance = newValue
             }
         }
-        .onChange(of: income) { _, newValue in
-            withAnimation(.easeOut(duration: 0.5)) {
-                animatedIncome = newValue
-            }
-        }
-        .onChange(of: expense) { _, newValue in
-            withAnimation(.easeOut(duration: 0.5)) {
-                animatedExpense = newValue
-            }
-        }
     }
     
-    private func labeledAmount(title: String, amount: Double, color: Color, icon: String) -> some View {
+    private func statBox(title: String, amount: Double, icon: String, color: Color) -> some View {
         HStack(spacing: 8) {
             Image(systemName: icon)
+                .font(.caption)
                 .foregroundStyle(color)
-                .font(.title3)
-            
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
+                    .font(.caption2)
+                    .foregroundStyle(AppColor.primaryText.opacity(0.5))
+                Text(amount, format: .currency(code: currencyCode))
                     .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(amount, format: .currency(code: "USD"))
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .contentTransition(.numericText(value: amount))
+                    .fontWeight(.bold)
+                    .foregroundStyle(color)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(AppColor.background)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
 #Preview {
-    BalanceCardView(balance: 1250.50, income: 3000, expense: 1749.50)
+    BalanceCardView(balance: 24850.42, income: 3000, expense: 1749.50, currencyCode: "USD")
         .padding()
-        .background(Color.black)
+        .background(AppColor.background)
 }

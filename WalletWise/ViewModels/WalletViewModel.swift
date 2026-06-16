@@ -6,12 +6,32 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @Observable
 class WalletViewModel {
     
     var transactions: [Transaction] = []
-    var monthlyBudget: Double = 1000.0
+    
+    var monthlyBudget: Double {
+        get { UserDefaults.standard.double(forKey: "monthlyBudget").nonZero ?? 1000.0 }
+        set { UserDefaults.standard.set(newValue, forKey: "monthlyBudget") }
+    }
+    
+    var selectedCurrency: AppCurrency {
+        get {
+            if let data = UserDefaults.standard.data(forKey: "selectedCurrency"),
+               let decoded = try? JSONDecoder().decode(AppCurrency.self, from: data) {
+                return decoded
+            }
+            return .defaultCurrency
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(data, forKey: "selectedCurrency")
+            }
+        }
+    }
     
     var totalIncome: Double {
         transactions
@@ -34,19 +54,28 @@ class WalletViewModel {
         return min(totalExpense / monthlyBudget, 1.0)
     }
     
-    var expensesByCategory: [Category: Double] {
-        var result: [Category: Double] = [:]
-        for transaction in transactions where !transaction.isIncome {
-            result[transaction.category, default: 0] += transaction.amount
-        }
-        return result
+    var currencyCode: String {
+        selectedCurrency.code
     }
     
-    func addTransaction(_ transaction: Transaction) {
-        transactions.append(transaction)
+    func addTransaction(_ transaction: Transaction, context: ModelContext) {
+        context.insert(transaction)
+        try? context.save()
     }
     
-    func deleteTransaction(at offsets: IndexSet) {
-        transactions.remove(atOffsets: offsets)
+    func deleteTransaction(_ transaction: Transaction, context: ModelContext) {
+        context.delete(transaction)
+        try? context.save()
+    }
+    
+    func loadTransactions(context: ModelContext) {
+        let descriptor = FetchDescriptor<Transaction>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        transactions = (try? context.fetch(descriptor)) ?? []
+    }
+}
+
+private extension Double {
+    var nonZero: Double? {
+        self == 0 ? nil : self
     }
 }
