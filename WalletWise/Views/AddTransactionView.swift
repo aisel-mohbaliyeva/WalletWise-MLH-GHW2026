@@ -9,42 +9,47 @@ import SwiftUI
 import SwiftData
 
 struct AddTransactionView: View {
-    
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     var viewModel: WalletViewModel
-    
+
     @State private var title = ""
     @State private var amount = ""
     @State private var category: Category = .market
     @State private var isIncome = false
-    
-    private var isFormValid: Bool {
-        !title.isEmpty && Double(amount) != nil && Double(amount)! > 0
+
+    private var sanitizedAmount: Double? {
+        Double(amount.replacingOccurrences(of: ",", with: "."))
     }
-    
+
+    private var isFormValid: Bool {
+        guard let value = sanitizedAmount else { return false }
+        return !title.trimmingCharacters(in: .whitespaces).isEmpty && value > 0
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
-                AppColor.background
+                AppColor.secondaryBackground
                     .ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(spacing: 20) {
-                        
+
                         // Amount
                         VStack(spacing: 10) {
                             Text("ENTER AMOUNT")
                                 .font(.caption2)
                                 .fontWeight(.bold)
                                 .tracking(2)
-                                .foregroundStyle(AppColor.accent.opacity(0.6))
-                            
+                                .foregroundStyle(AppColor.background.opacity(0.4))
+
                             ZStack(alignment: .trailing) {
                                 TextField("0.00", text: $amount)
                                     .keyboardType(.decimalPad)
                                     .font(.system(size: 48, weight: .black, design: .rounded))
-                                    .foregroundStyle(AppColor.accent)
+                                    .foregroundStyle(AppColor.background)
                                     .multilineTextAlignment(.center)
 
                                 if !amount.isEmpty {
@@ -52,39 +57,34 @@ struct AddTransactionView: View {
                                         amount = ""
                                     } label: {
                                         Image(systemName: "xmark.circle.fill")
-                                            .foregroundStyle(AppColor.primaryText.opacity(0.3))
+                                            .foregroundStyle(AppColor.background.opacity(0.2))
                                     }
                                 }
                             }
                         }
                         .padding(28)
                         .frame(maxWidth: .infinity)
-                        .background(
-                            LinearGradient(
-                                colors: [AppColor.cardBackground, AppColor.cardBackground.opacity(0.6)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                        .background(.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: 28)
-                                .stroke(AppColor.accent.opacity(0.15), lineWidth: 1)
+                                .stroke(AppColor.background.opacity(0.08), lineWidth: 1)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 28))
+                        .shadow(color: AppColor.background.opacity(0.06), radius: 12, y: 4)
                         .padding(.horizontal)
-                        
+
                         // Details
                         VStack(alignment: .leading, spacing: 16) {
                             ZStack(alignment: .trailing) {
                                 TextField("Merchant / Description", text: $title)
                                     .padding(16)
                                     .padding(.trailing, 32)
-                                    .background(AppColor.background)
-                                    .foregroundStyle(AppColor.primaryText)
+                                    .background(AppColor.secondaryBackground)
+                                    .foregroundStyle(AppColor.darkText)
                                     .clipShape(RoundedRectangle(cornerRadius: 14))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 14)
-                                            .stroke(AppColor.primaryText.opacity(0.08), lineWidth: 1)
+                                            .stroke(AppColor.background.opacity(0.06), lineWidth: 1)
                                     )
 
                                 if !title.isEmpty {
@@ -92,38 +92,39 @@ struct AddTransactionView: View {
                                         title = ""
                                     } label: {
                                         Image(systemName: "xmark.circle.fill")
-                                            .foregroundStyle(AppColor.primaryText.opacity(0.3))
+                                            .foregroundStyle(AppColor.background.opacity(0.2))
                                     }
                                     .padding(.trailing, 14)
                                 }
                             }
-                            
+
                             HStack(spacing: 10) {
-                                typeButton(label: "Expense", isSelected: !isIncome) {
+                                typeButton(label: "Expense", icon: "arrow.up", isSelected: !isIncome) {
                                     isIncome = false
                                 }
-                                typeButton(label: "Income", isSelected: isIncome) {
+                                typeButton(label: "Income", icon: "arrow.down", isSelected: isIncome) {
                                     isIncome = true
                                 }
                             }
                         }
                         .padding(20)
-                        .background(AppColor.cardBackground)
+                        .background(.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: 24)
-                                .stroke(AppColor.primaryText.opacity(0.06), lineWidth: 1)
+                                .stroke(AppColor.background.opacity(0.06), lineWidth: 1)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 24))
+                        .shadow(color: AppColor.background.opacity(0.06), radius: 12, y: 4)
                         .padding(.horizontal)
-                        
+
                         // Category
                         VStack(alignment: .leading, spacing: 16) {
                             Text("SELECT CATEGORY")
                                 .font(.caption2)
                                 .fontWeight(.bold)
                                 .tracking(2)
-                                .foregroundStyle(AppColor.accent.opacity(0.6))
-                            
+                                .foregroundStyle(AppColor.background.opacity(0.4))
+
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 16) {
                                 ForEach(Category.allCases, id: \.self) { cat in
                                     categoryItem(cat)
@@ -131,14 +132,15 @@ struct AddTransactionView: View {
                             }
                         }
                         .padding(20)
-                        .background(AppColor.cardBackground)
+                        .background(.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: 24)
-                                .stroke(AppColor.primaryText.opacity(0.06), lineWidth: 1)
+                                .stroke(AppColor.background.opacity(0.06), lineWidth: 1)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 24))
+                        .shadow(color: AppColor.background.opacity(0.06), radius: 12, y: 4)
                         .padding(.horizontal)
-                        
+
                         // Save
                         Button {
                             saveTransaction()
@@ -151,8 +153,8 @@ struct AddTransactionView: View {
                             .font(.body)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 18)
-                            .background(isFormValid ? AppColor.accent : AppColor.cardBackground)
-                            .foregroundStyle(isFormValid ? AppColor.darkText : AppColor.primaryText.opacity(0.2))
+                            .background(isFormValid ? AppColor.accent : AppColor.background.opacity(0.08))
+                            .foregroundStyle(isFormValid ? AppColor.darkText : AppColor.background.opacity(0.2))
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .shadow(color: isFormValid ? AppColor.accent.opacity(0.3) : .clear, radius: 12, y: 4)
                         }
@@ -165,60 +167,89 @@ struct AddTransactionView: View {
             }
             .navigationTitle("Add Transaction")
             .navigationBarTitleDisplayMode(.inline)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
+            .onChange(of: title) { _, newValue in
+                if newValue.count > 40 {
+                    title = String(newValue.prefix(40))
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
-                        .foregroundStyle(AppColor.primaryText.opacity(0.6))
+                        .foregroundStyle(AppColor.background.opacity(0.6))
                 }
             }
         }
     }
-    
-    private func typeButton(label: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+
+    private func typeButton(label: String, icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(label)
-                .font(.subheadline)
-                .fontWeight(.bold)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(isSelected ? AppColor.accent : AppColor.background)
-                .foregroundStyle(isSelected ? AppColor.darkText : AppColor.primaryText.opacity(0.5))
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.caption)
+                Text(label)
+                    .fontWeight(.bold)
+            }
+            .font(.subheadline)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(isSelected ? AppColor.accent : AppColor.secondaryBackground)
+            .foregroundStyle(isSelected ? AppColor.darkText : AppColor.background.opacity(0.4))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
-    
+
+    @ViewBuilder
     private func categoryItem(_ cat: Category) -> some View {
+        let isSelected = category == cat
+
         Button {
-            category = cat
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                category = cat
+            }
         } label: {
-            VStack(spacing: 6) {
+            VStack(spacing: 8) {
                 Image(systemName: cat.icon)
-                    .font(.title3)
-                    .frame(width: 46, height: 46)
-                    .background(category == cat ? cat.color : cat.color.opacity(0.15))
-                    .foregroundStyle(category == cat ? .white : cat.color)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(category == cat ? cat.color : .clear, lineWidth: 2)
-                            .padding(-3)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .frame(width: 50, height: 50)
+                    .foregroundStyle(isSelected ? .white : cat.color)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(
+                                isSelected
+                                ? LinearGradient(colors: [cat.color, cat.color.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                : LinearGradient(colors: [cat.color.opacity(0.15), cat.color.opacity(0.06)], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
                     )
-                
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.white.opacity(isSelected ? 0.25 : 0.08), .clear],
+                                    startPoint: .top,
+                                    endPoint: .center
+                                )
+                            )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .shadow(color: isSelected ? cat.color.opacity(0.4) : .clear, radius: 8, y: 3)
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
+
                 Text(cat.rawValue)
                     .font(.caption2)
-                    .fontWeight(category == cat ? .bold : .regular)
-                    .foregroundStyle(category == cat ? cat.color : AppColor.primaryText.opacity(0.5))
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .foregroundStyle(isSelected ? cat.color : AppColor.background.opacity(0.5))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
         }
     }
-    
+
     private func saveTransaction() {
-        guard let parsedAmount = Double(amount) else { return }
+        guard let parsedAmount = sanitizedAmount, parsedAmount > 0 else { return }
         let transaction = Transaction(
-            title: title,
+            title: title.trimmingCharacters(in: .whitespaces),
             amount: parsedAmount,
             category: category,
             isIncome: isIncome

@@ -29,9 +29,18 @@ struct TransactionRowView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(AppColor.primaryText)
-                Text(transaction.category.rawValue)
-                    .font(.caption2)
-                    .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                    .lineLimit(1)
+                HStack(spacing: 4) {
+                    Text(transaction.category.rawValue)
+                        .font(.caption2)
+                        .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                    Text("\u{00B7}")
+                        .font(.caption2)
+                        .foregroundStyle(AppColor.primaryText.opacity(0.3))
+                    Text(transaction.date, format: .dateTime.month(.abbreviated).day())
+                        .font(.caption2)
+                        .foregroundStyle(AppColor.primaryText.opacity(0.3))
+                }
             }
             
             Spacer()

@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ProgressRingView: View {
-    
+
     var progress: Double
     var totalBudget: Double
     var spent: Double
     var currencyCode: String
+    var onEditBudget: (() -> Void)?
     
     @State private var animatedProgress: Double = 0
     
@@ -35,9 +36,18 @@ struct ProgressRingView: View {
                     .tracking(2)
                     .foregroundStyle(AppColor.accent.opacity(0.7))
                 Spacer()
-                Text("of \(totalBudget, format: .currency(code: currencyCode))")
-                    .font(.caption2)
-                    .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                Button {
+                    onEditBudget?()
+                } label: {
+                    HStack(spacing: 4) {
+                        Text("of \(totalBudget, format: .currency(code: currencyCode))")
+                            .font(.caption2)
+                            .foregroundStyle(AppColor.primaryText.opacity(0.4))
+                        Image(systemName: "pencil")
+                            .font(.caption2)
+                            .foregroundStyle(AppColor.accent.opacity(0.5))
+                    }
+                }
             }
             
             GeometryReader { geo in

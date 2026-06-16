@@ -19,23 +19,29 @@ struct SwipeableRow<Content: View>: View {
         min(0, max(-80, baseOffset + dragOffset))
     }
 
+    private var isRevealed: Bool {
+        totalOffset < -15
+    }
+
     var body: some View {
         ZStack(alignment: .trailing) {
-            HStack {
-                Spacer()
-                Button {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        onDelete()
-                    }
-                } label: {
-                    Image(systemName: "trash.fill")
-                        .foregroundStyle(.white)
-                        .font(.body)
-                        .frame(width: 70)
-                        .frame(maxHeight: .infinity)
-                        .background(Color.red)
+            Button {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    onDelete()
                 }
+            } label: {
+                Image(systemName: "trash")
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(Color.red.gradient)
+                    .clipShape(RoundedRectangle(cornerRadius: 13))
             }
+            .padding(.trailing, 12)
+            .opacity(isRevealed ? 1 : 0)
+            .scaleEffect(isRevealed ? 1 : 0.4)
+            .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isRevealed)
 
             content()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -64,6 +70,5 @@ struct SwipeableRow<Content: View>: View {
                     }
                 }
         }
-        .clipShape(Rectangle())
     }
 }

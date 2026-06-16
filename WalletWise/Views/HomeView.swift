@@ -14,6 +14,9 @@ struct HomeView: View {
     @Bindable var viewModel: WalletViewModel
     @State private var showAddTransaction = false
     @State private var showCurrencyPicker = false
+    @State private var showCalendar = false
+    @State private var showBudgetEditor = false
+    @State private var budgetInput = ""
     
     var body: some View {
         NavigationStack {
@@ -33,9 +36,12 @@ struct HomeView: View {
                         ProgressRingView(
                             progress: viewModel.budgetProgress,
                             totalBudget: viewModel.monthlyBudget,
-                            spent: viewModel.totalExpense,
+                            spent: viewModel.monthlyExpense,
                             currencyCode: viewModel.currencyCode
-                        )
+                        ) {
+                            budgetInput = String(format: "%.0f", viewModel.monthlyBudget)
+                            showBudgetEditor = true
+                        }
                         
                         transactionSection
                     }
@@ -77,6 +83,20 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showCurrencyPicker) {
                 CurrencyPickerView(selectedCurrency: $viewModel.selectedCurrency)
+                    .presentationDetents([.medium])
+            }
+            .alert("Monthly Budget", isPresented: $showBudgetEditor) {
+                TextField("Amount", text: $budgetInput)
+                    .keyboardType(.decimalPad)
+                Button("Save") {
+                    let sanitized = budgetInput.replacingOccurrences(of: ",", with: ".")
+                    if let value = Double(sanitized), value > 0 {
+                        viewModel.monthlyBudget = value
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Enter your monthly budget limit")
             }
             .onAppear {
                 viewModel.loadTransactions(context: modelContext)
@@ -112,20 +132,15 @@ struct HomeView: View {
             } else {
                 VStack(spacing: 0) {
                     ForEach(Array(viewModel.transactions.enumerated()), id: \.element.id) { index, transaction in
-                        TransactionRowView(
-                            transaction: transaction,
-                            currencyCode: viewModel.currencyCode,
-                            animationDelay: Double(index) * 0.05
-                        )
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    viewModel.deleteTransaction(transaction, context: modelContext)
-                                    viewModel.loadTransactions(context: modelContext)
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                        SwipeableRow {
+                            TransactionRowView(
+                                transaction: transaction,
+                                currencyCode: viewModel.currencyCode,
+                                animationDelay: Double(index) * 0.05
+                            )
+                        } onDelete: {
+                            viewModel.deleteTransaction(transaction, context: modelContext)
+                            viewModel.loadTransactions(context: modelContext)
                         }
                         if index < viewModel.transactions.count - 1 {
                             Divider()

@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct CurrencyPickerView: View {
-    
+
     @Environment(\.dismiss) private var dismiss
     @Binding var selectedCurrency: AppCurrency
     @State private var searchText = ""
-    
+
     private var filtered: [AppCurrency] {
         if searchText.isEmpty { return AppCurrency.all }
         return AppCurrency.all.filter {
@@ -20,13 +20,13 @@ struct CurrencyPickerView: View {
             $0.code.localizedCaseInsensitiveContains(searchText)
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
-                AppColor.background
+                AppColor.secondaryBackground
                     .ignoresSafeArea()
-                
+
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(filtered) { currency in
@@ -38,22 +38,22 @@ struct CurrencyPickerView: View {
                                     Text(currency.symbol)
                                         .font(.title2)
                                         .frame(width: 44, height: 44)
-                                        .background(selectedCurrency.code == currency.code ? AppColor.accent : AppColor.background)
-                                        .foregroundStyle(selectedCurrency.code == currency.code ? AppColor.darkText : AppColor.primaryText)
+                                        .background(selectedCurrency.code == currency.code ? AppColor.accent : .white)
+                                        .foregroundStyle(selectedCurrency.code == currency.code ? AppColor.darkText : AppColor.background)
                                         .clipShape(Circle())
-                                    
+
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(currency.code)
                                             .font(.subheadline)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(AppColor.primaryText)
+                                            .foregroundStyle(AppColor.darkText)
                                         Text(currency.name)
                                             .font(.caption)
-                                            .foregroundStyle(AppColor.primaryText.opacity(0.5))
+                                            .foregroundStyle(AppColor.background.opacity(0.4))
                                     }
-                                    
+
                                     Spacer()
-                                    
+
                                     if selectedCurrency.code == currency.code {
                                         Image(systemName: "checkmark")
                                             .foregroundStyle(AppColor.accent)
@@ -63,9 +63,9 @@ struct CurrencyPickerView: View {
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 12)
                             }
-                            
+
                             Divider()
-                                .overlay(AppColor.primaryText.opacity(0.06))
+                                .overlay(AppColor.background.opacity(0.06))
                                 .padding(.leading, 78)
                         }
                     }
@@ -73,12 +73,12 @@ struct CurrencyPickerView: View {
             }
             .navigationTitle("Currency")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .preferredColorScheme(.light)
             .searchable(text: $searchText, prompt: "Search currency")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { dismiss() }
-                        .foregroundStyle(AppColor.primaryText)
+                        .foregroundStyle(AppColor.background.opacity(0.6))
                 }
             }
         }
