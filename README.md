@@ -18,18 +18,6 @@ Personal finance tracker built with SwiftUI and SwiftData.
 
 </div>
 
-## Screenshots
-
-<div align="center">
-
-<img src="Screenshots/1.png" alt="Splash Screen" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/2.png" alt="Home Screen" width="230">
-
-<br>
-
-<img src="Screenshots/3.png" alt="Add Transaction" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/4.png" alt="Calendar View" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/5.png" alt="Currency Picker" width="230">
-
-</div>
-
 ## Features
 
 - Track income and expenses with 12 categories
@@ -48,6 +36,18 @@ Personal finance tracker built with SwiftUI and SwiftData.
 | **@Observable** | Reactive state management (MVVM) |
 | **UserDefaults** | Lightweight settings storage |
 | **[Stitch](https://stitch.withgoogle.com)** | UI/UX design and prototyping |
+
+## Screenshots
+
+<div align="center">
+
+<img src="Screenshots/1.png" alt="Splash Screen" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/2.png" alt="Home Screen" width="230">
+
+<br>
+
+<img src="Screenshots/3.png" alt="Add Transaction" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/4.png" alt="Calendar View" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/5.png" alt="Currency Picker" width="230">
+
+</div>
 
 ## Architecture
 
