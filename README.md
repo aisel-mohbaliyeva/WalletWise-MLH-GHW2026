@@ -14,12 +14,8 @@
 
 <a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
   <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="500">
-</a>
-
-<br><br>
-
-<a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
-  <img src="https://img.shields.io/badge/▶%20Watch%20Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube">
+  <br><br>
+  <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
 </a>
 
 </div>
