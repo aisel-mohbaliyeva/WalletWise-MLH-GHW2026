@@ -1,5 +1,4 @@
 <p align="center">
-    
   <img src="WalletWise/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WalletWise" width="80">
   &nbsp;&nbsp;&nbsp;
 </p>
@@ -14,7 +13,9 @@
 </p>
 
 <br><br>
+<p align="center">
  <img src="Screenshots/mlh-logo.svg" alt="MLH" width="80">
+ </p>
 
 ## Demo
 
