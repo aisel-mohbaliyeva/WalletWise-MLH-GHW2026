@@ -6,6 +6,11 @@
 
 <p align="center">Personal finance tracker built with SwiftUI and SwiftData</p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/MLH-Global%20Hack%20Week-blue?style=flat-square&logo=mlh&logoColor=white" alt="MLH GHW">
+  <img src="https://img.shields.io/badge/Challenge-Hacking%20for%20Good-green?style=flat-square" alt="Hacking for Good">
+</p>
+
 <br>
 
 ## Demo
