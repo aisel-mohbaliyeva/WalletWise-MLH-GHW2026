@@ -59,15 +59,11 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 <div align="center">
 
-<img src="Screenshots/1.png" alt="Splash Screen" width="230">
-&nbsp;&nbsp;&nbsp;
-<img src="Screenshots/2.png" alt="Home Screen" width="230">
+<img src="Screenshots/1.png" alt="Splash Screen" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/2.png" alt="Home Screen" width="230">
 
-<img src="Screenshots/3.png" alt="Add Transaction" width="230">
-&nbsp;&nbsp;&nbsp;
-<img src="Screenshots/4.png" alt="Calendar View" width="230">
-&nbsp;&nbsp;&nbsp;
-<img src="Screenshots/5.png" alt="Currency Picker" width="230">
+<br>
+
+<img src="Screenshots/3.png" alt="Add Transaction" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/4.png" alt="Calendar View" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/5.png" alt="Currency Picker" width="230">
 
 </div>
 
