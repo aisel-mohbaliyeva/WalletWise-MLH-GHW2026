@@ -1,6 +1,7 @@
 <p align="center">
   <img src="WalletWise/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WalletWise" width="80">
   &nbsp;&nbsp;&nbsp;
+  <br><br>
   <img src="Screenshots/mlh-logo.svg" alt="MLH" width="80">
 </p>
 
