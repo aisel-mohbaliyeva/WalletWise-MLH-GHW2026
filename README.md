@@ -4,11 +4,10 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 ## Demo
 
-<p align="center">
-  <video src="https://raw.githubusercontent.com/aisel-mohbaliyeva/WalletWise-MLH-GHW2026/main/Media/WW.mov" width="300" controls></video>
-</p>
+![WalletWise Demo Video](Media/WW.mov)
 
 > *Watch the full application walkthrough above.*
+
 
 ## Features
 
