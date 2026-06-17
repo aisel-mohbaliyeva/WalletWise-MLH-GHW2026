@@ -91,6 +91,7 @@ struct HomeView: View {
                                 .frame(width: 32, height: 32)
                                 .background(AppColor.accent)
                                 .clipShape(Circle())
+
                         }
                         .accessibilityLabel("Add new transaction")
                     }
@@ -126,7 +127,7 @@ struct HomeView: View {
                     .keyboardType(.decimalPad)
                 Button("Save") {
                     let sanitized = budgetInput.replacingOccurrences(of: ",", with: ".")
-                    if let value = Double(sanitized), value > 0 {
+                    if let value = Double(sanitized), value >= 0 {
                         viewModel.monthlyBudget = value
                     }
                 }

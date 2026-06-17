@@ -80,8 +80,11 @@ class WalletViewModel {
     }
 
     init() {
-        let budget = UserDefaults.standard.double(forKey: "monthlyBudget")
-        self.monthlyBudget = budget > 0 ? budget : 1000.0
+        if UserDefaults.standard.object(forKey: "monthlyBudget") != nil {
+            self.monthlyBudget = UserDefaults.standard.double(forKey: "monthlyBudget")
+        } else {
+            self.monthlyBudget = 1000.0
+        }
 
         if let data = UserDefaults.standard.data(forKey: "selectedCurrency"),
            let decoded = try? JSONDecoder().decode(AppCurrency.self, from: data) {
