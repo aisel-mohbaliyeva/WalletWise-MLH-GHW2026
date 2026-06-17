@@ -2,7 +2,7 @@
 
 A beautifully designed personal finance tracker built with SwiftUI and SwiftData. Track your income, expenses, and monthly budget with an elegant dark-themed interface featuring smooth animations and intuitive gestures.
 
-## Demo
+## Demo | Click on the YouTube screen
 
 [![WalletWise Demo](https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg)](https://youtube.com/shorts/piodfxxrGD8)
 
