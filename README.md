@@ -4,10 +4,11 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 ## Demo
 
-[![WalletWise Demo](https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg)](https://youtube.com/shorts/piodfxxrGD8)
-
-> *Watch the full application walkthrough above.*
-> 
+<a href="https://youtube.com/shorts/piodfxxrGD8">
+  <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="300">
+  <br>
+  <img src="https://img.shields.io/badge/▶_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube">
+</a>
 
 ## Features
 
@@ -44,9 +45,21 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 ## Screenshots
 
-| Home Screen | Add Transaction | Calendar View | Currency Picker |
-|:-----------:|:---------------:|:-------------:|:---------------:|
-| Dark theme with balance card, budget ring, and transaction list | Light theme with amount input, type selector, and category grid | Light theme calendar with date-based transaction browsing | Searchable currency list with 30 international currencies |
+<p align="center">
+  <img src="Screenshots/1.png" alt="Splash Screen" width="180">
+  &nbsp;&nbsp;
+  <img src="Screenshots/2.png" alt="Home Screen" width="180">
+  &nbsp;&nbsp;
+  <img src="Screenshots/3.png" alt="Add Transaction" width="180">
+  &nbsp;&nbsp;
+  <img src="Screenshots/4.png" alt="Calendar View" width="180">
+  &nbsp;&nbsp;
+  <img src="Screenshots/5.png" alt="Currency Picker" width="180">
+</p>
+
+| Splash Screen | Home Screen | Add Transaction | Calendar View | Currency Picker |
+|:-------------:|:-----------:|:---------------:|:-------------:|:---------------:|
+| Launch animation | Balance, budget & transactions | Amount, category & type | Date-based browsing | 30 currencies with search |
 
 ## Architecture
 
