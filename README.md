@@ -1,22 +1,30 @@
-# WalletWise
+<p align="center">
+  <img src="WalletWise/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WalletWise" width="80">
+</p>
 
-Personal finance tracker built with SwiftUI and SwiftData.
+<h1 align="center">WalletWise</h1>
+
+<p align="center">Personal finance tracker built with SwiftUI and SwiftData</p>
+
+<br>
 
 ## Demo
 
 <div align="center">
 
 <a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
-  <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="280">
+  <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="500">
 </a>
 
 <br><br>
 
 <a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
-  <img src="https://img.shields.io/badge/▶_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube">
+  <img src="https://img.shields.io/badge/▶%20Watch%20Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube">
 </a>
 
 </div>
+
+<br>
 
 ## Features
 
@@ -41,20 +49,19 @@ Personal finance tracker built with SwiftUI and SwiftData.
 
 <div align="center">
 
-<img src="Screenshots/1.png" alt="Splash Screen" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/2.png" alt="Home Screen" width="230">
+<img src="Screenshots/1.png" alt="Splash Screen" width="200">&nbsp;&nbsp;&nbsp;<img src="Screenshots/2.png" alt="Home Screen" width="200">
 
 <br>
 
-<img src="Screenshots/3.png" alt="Add Transaction" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/4.png" alt="Calendar View" width="230">&nbsp;&nbsp;&nbsp;<img src="Screenshots/5.png" alt="Currency Picker" width="230">
+<img src="Screenshots/3.png" alt="Add Transaction" width="200">&nbsp;&nbsp;&nbsp;<img src="Screenshots/4.png" alt="Calendar View" width="200">&nbsp;&nbsp;&nbsp;<img src="Screenshots/5.png" alt="Currency Picker" width="200">
 
 </div>
 
 ## Architecture
 
-- **MVVM** with `@Observable` ViewModel
-- **SOLID** — single responsibility per file
-- **OOP** — class-based ViewModel with encapsulated logic
-- Safe optional handling, `do/catch` error handling, no force unwraps
+```
+MVVM  ·  @Observable  ·  SOLID  ·  OOP  ·  do/catch  ·  No Force Unwraps
+```
 
 ```
 WalletWise/
@@ -68,14 +75,13 @@ WalletWise/
 
 ## Requirements
 
-- iOS 17.0+ / Xcode 15.0+ / Swift 5.9+
+iOS 17.0+ · Xcode 15.0+ · Swift 5.9+
 
 ## Installation
 
 ```bash
 git clone https://github.com/aisel-mohbaliyeva/WalletWise.git
-cd WalletWise
-open WalletWise.xcodeproj
+cd WalletWise && open WalletWise.xcodeproj
 ```
 
 ## Author
