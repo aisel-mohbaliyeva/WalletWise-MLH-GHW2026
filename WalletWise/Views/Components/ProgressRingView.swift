@@ -14,19 +14,19 @@ struct ProgressRingView: View {
     var spent: Double
     var currencyCode: String
     var onEditBudget: (() -> Void)?
-    
+
     @State private var animatedProgress: Double = 0
-    
+
     private var remaining: Double {
         max(totalBudget - spent, 0)
     }
-    
+
     private var barColor: Color {
         if progress < 0.5 { return AppColor.accent }
         else if progress < 0.8 { return .orange }
         else { return .red }
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
@@ -50,7 +50,7 @@ struct ProgressRingView: View {
                 }
                 .accessibilityLabel("Edit monthly budget")
             }
-            
+
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 5)
@@ -61,7 +61,7 @@ struct ProgressRingView: View {
                 }
             }
             .frame(height: 8)
-            
+
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Spent")

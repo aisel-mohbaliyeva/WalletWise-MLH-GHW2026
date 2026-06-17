@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct BalanceCardView: View {
-    
+
     var balance: Double
     var income: Double
     var expense: Double
     var currencyCode: String
-    
+
     @State private var animatedBalance: Double = 0
     @State private var hasAppeared = false
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text("MONTHLY BALANCE")
@@ -24,12 +24,12 @@ struct BalanceCardView: View {
                 .fontWeight(.bold)
                 .tracking(2)
                 .foregroundStyle(AppColor.accent.opacity(0.7))
-            
+
             Text(animatedBalance, format: .currency(code: currencyCode))
                 .font(.system(size: 40, weight: .black, design: .rounded))
                 .foregroundStyle(AppColor.accent)
                 .contentTransition(.numericText(value: animatedBalance))
-            
+
             HStack(spacing: 12) {
                 statBox(title: "Income", amount: income, icon: "arrow.down", color: AppColor.accent)
                 statBox(title: "Expense", amount: expense, icon: "arrow.up", color: .red)
@@ -55,7 +55,7 @@ struct BalanceCardView: View {
             }
         }
     }
-    
+
     private func statBox(title: String, amount: Double, icon: String, color: Color) -> some View {
         HStack(spacing: 8) {
             Image(systemName: icon)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum AppColor {
-    static let background = Color(hex: "23094E")
+    static let background = Color(hex: "2D1260")
     static let cardBackground = Color(hex: "432D69")
     static let secondaryBackground = Color(hex: "ECE8FF")
     static let accent = Color(hex: "C3FF23")
