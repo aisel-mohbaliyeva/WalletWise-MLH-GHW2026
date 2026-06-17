@@ -4,10 +4,10 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 ## Demo
 
-![WalletWise Demo Video](Media/WW.mov)
+[![WalletWise Demo](https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg)](https://youtube.com/shorts/piodfxxrGD8)
 
 > *Watch the full application walkthrough above.*
-
+> 
 
 ## Features
 
