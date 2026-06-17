@@ -2,13 +2,25 @@
 
 A beautifully designed personal finance tracker built with SwiftUI and SwiftData. Track your income, expenses, and monthly budget with an elegant dark-themed interface featuring smooth animations and intuitive gestures.
 
-## Demo | Click on the YouTube screen
+## Demo
 
-<a href="https://youtube.com/shorts/piodfxxrGD8">
-  <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="300">
-  <br>
+<div align="center">
+
+### 🎬 Watch Demo on YouTube
+
+<a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
+  <img src="https://img.youtube.com/vi/piodfxxrGD8/maxresdefault.jpg" alt="WalletWise Demo" width="280">
+</a>
+
+<br>
+
+<a href="https://youtube.com/shorts/piodfxxrGD8" target="_blank">
   <img src="https://img.shields.io/badge/▶_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube">
 </a>
+
+*Click the image above to watch the full demo on YouTube*
+
+</div>
 
 ## Features
 
@@ -45,21 +57,19 @@ A beautifully designed personal finance tracker built with SwiftUI and SwiftData
 
 ## Screenshots
 
-<p align="center">
-  <img src="Screenshots/1.png" alt="Splash Screen" width="180">
-  &nbsp;&nbsp;
-  <img src="Screenshots/2.png" alt="Home Screen" width="180">
-  &nbsp;&nbsp;
-  <img src="Screenshots/3.png" alt="Add Transaction" width="180">
-  &nbsp;&nbsp;
-  <img src="Screenshots/4.png" alt="Calendar View" width="180">
-  &nbsp;&nbsp;
-  <img src="Screenshots/5.png" alt="Currency Picker" width="180">
-</p>
+<div align="center">
 
-| Splash Screen | Home Screen | Add Transaction | Calendar View | Currency Picker |
-|:-------------:|:-----------:|:---------------:|:-------------:|:---------------:|
-| Launch animation | Balance, budget & transactions | Amount, category & type | Date-based browsing | 30 currencies with search |
+<img src="Screenshots/1.png" alt="Splash Screen" width="230">
+&nbsp;&nbsp;&nbsp;
+<img src="Screenshots/2.png" alt="Home Screen" width="230">
+
+<img src="Screenshots/3.png" alt="Add Transaction" width="230">
+&nbsp;&nbsp;&nbsp;
+<img src="Screenshots/4.png" alt="Calendar View" width="230">
+&nbsp;&nbsp;&nbsp;
+<img src="Screenshots/5.png" alt="Currency Picker" width="230">
+
+</div>
 
 ## Architecture
 
