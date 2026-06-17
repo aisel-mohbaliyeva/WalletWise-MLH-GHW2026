@@ -1,6 +1,5 @@
 <p align="center">
-    <img src="Screenshots/mlh-logo.svg" alt="MLH" width="80">
-  <br><br>
+    
   <img src="WalletWise/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WalletWise" width="80">
   &nbsp;&nbsp;&nbsp;
 </p>
@@ -14,7 +13,8 @@
   <img src="https://img.shields.io/badge/Challenge-Hacking%20for%20Good-green?style=flat-square" alt="Hacking for Good">
 </p>
 
-<br>
+<br><br>
+ <img src="Screenshots/mlh-logo.svg" alt="MLH" width="80">
 
 ## Demo
 
